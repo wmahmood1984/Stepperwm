@@ -1,7 +1,6 @@
 import { Box, Button, Card, CardContent, CircularProgress, Grid, Step, StepLabel, Stepper } from '@material-ui/core';
 import { Field, Form, Formik, FormikConfig, FormikValues } from 'formik';
 import { CheckboxWithLabel, TextField } from 'formik-material-ui'
-import { JSXElementConstructor } from 'react';
 import { object, mixed, number } from 'yup';
 import React, {useState} from 'react'
 
@@ -73,20 +72,20 @@ export function FormikStep({children}: FormikStepProps) {
 }
 
 export function FormikStepper({children, ...props}: FormikConfig<FormikValues>) {
-const childrenArray = React.Children.toArray(children);
+const childrenArray = React.Children.toArray(children) as React.ReactElement<FormikStepProps>[]
 const [step,setStep] = useState(0);
 const [completed,setCompleted]= useState(false)
-const currentChild = childrenArray[step] as React.ElementType<FormikStepProps>
+const currentChild = childrenArray[step]
 
 
 function isLastStep (){
   return step === childrenArray.length-1
 }
-
 return (
 <Formik
 {...props}
 validationSchema={currentChild.props.validationSchema}
+
 
 onSubmit={async(values,helpers)=>{
   if(isLastStep()){
